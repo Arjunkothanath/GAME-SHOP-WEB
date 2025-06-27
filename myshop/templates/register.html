@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGN UP</title>
+    <link rel="stylesheet" href="{% static 'css/reg.css' %}">
+</head>
+<body>
+    <form id="dis" method="post">
+        {% csrf_token %}
+        <h1>REGISTRATION</h1>
+        <div class="sign">
+            <div class="one">
+              <div>
+                <label for="Firstname">First Name</label>
+                <input id="name" type="text" name="firstname" required><br>
+            </div>
+            <div>
+                <label for="Lastname">Last Name</label>
+                <input id="name1" type="text" name="lastname" required><br>  
+            </div>
+            </div>
+            <label for="email">Email</label>
+            <input id="mail" type="email" name="email" required><br>
+            <label for="password">Create Password</label>
+            <input id="pass" type="password" name="password" required onfocus="showPopup()" onblur="hidePopup()"><br>
+            <div id="popup" class="popup">Password must be at least 8 characters,<br>include a number and an uppercase letter.</div>
+            <label for="password">Confirm Password</label>
+            <input id="pass1" type="password" name="firstname" required><br>
+            </div>
+            <label><input type="checkbox" name="rem">Remember Me</label><br>
+            <button id="but" type="submit">Sign Up</button>
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+    </form>
+    <script>
+        function showPopup() {
+            document.getElementById("popup").style.display = "block";
+        }
+
+        function hidePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+        // let info = '';
+        // document.getElementById("dis").addEventListener("submit", function(event) {
+        //     event.preventDefault(); // Prevent form submission
+        //     let a = document.getElementById("name").value;
+        //     let b = document.getElementById("name1").value;
+        //     let c = document.getElementById("mail").value;
+        //     let d = document.getElementById("pass").value;
+        //     let e = document.getElementById("pass1").value;
+        //     if(d!==e){
+        //         window.alert("password should be same");
+        //         return
+        //     }
+        //     else{
+        //         info += `${a}\n${b}\n${c}\n${d}\n`;
+        //     }
+        //     if (info !== '') {
+        //         console.log(info); // Log the info
+        //         window.alert(info+"signup completed"); // Show alert
+        //         window.location.href ='/login'; // Redirect to login.html
+        //     }
+        // });
+</script>
+    
+    
+</body>
+</html>

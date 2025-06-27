@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameVerse Admin - User Queries</title>
+  <link rel="stylesheet" href="{% static 'css/manage.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="tophead">
+    <div class="logo">🎮 GameVerse Admin</div>
+    <nav class="main-nav">
+      <a href="/admin">Dashboard</a>
+      <a href="/addgame">Add Game</a>
+      <a href="/manage">Manage Orders</a>
+      <a href="/queries" class="active">Queries</a>
+      <a href="/chatadmin">Chats</a>
+      <a href="/home">View Site</a>
+    </nav>
+    <div class="header-right">
+      <a href="/login" class="login-btn">Logout</a>
+    </div>
+    <button class="mobile-menu-btn">☰</button>
+  </header>
+
+  <div class="container">
+    <section class="admin-section">
+      <h1>User Queries</h1>
+
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Subject</th>
+            <th>Message</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for query in queries %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ query.user_id.first_name }}</td>
+            <td>{{ query.user_id.email }}</td>
+            <td>{{ query.subject }}</td>
+            <td>{{ query.message }}</td>
+            <td>{{ query.created_at }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" style="text-align:center;">No queries submitted yet.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <script>
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+      document.querySelector('.main-nav').classList.toggle('show');
+      document.querySelector('.header-right').classList.toggle('show');
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+/* addgame.css */
+@import 'base.css';
+
+.add-game-section {
+  background-color: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.add-game-form {
+  margin-top: 2rem;
+}
+
+.price-input {
+  display: flex;
+  align-items: center;
+}
+
+.price-input span {
+  background-color: var(--primary);
+  color: white;
+  padding: 0.8rem 1rem;
+  border-radius: var(--border-radius) 0 0 var(--border-radius);
+  font-weight: 600;
+}
+
+.price-input input {
+  border-radius: 0 var(--border-radius) var(--border-radius) 0;
+  flex: 1;
+}
+
+.image-upload {
+  position: relative;
+  margin-top: 0.5rem;
+}
+
+.upload-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f1f2f6;
+  padding: 0.8rem 1rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+}
+
+.browse-btn {
+  background-color: var(--primary);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+}
+
+#game-image {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.cancel-btn {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--border-radius);
+  background-color: #dfe6e9;
+  color: var(--dark);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.cancel-btn:hover {
+  background-color: #b2bec3;
+}

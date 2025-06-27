@@ -1,0 +1,181 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Orders - GameVerse</title>
+  <!-- Link to the common home.css for general styles (like header, body) -->
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  <!-- Link to the specific orders.css for order page styles -->
+  <link rel="stylesheet" href="{% static 'css/orders.css' %}" />
+  <!-- Google Fonts for 'Rajdhani' -->
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Reusing the header from home.html and cart.html for consistency -->
+  <header class="tophead">
+    <div class="logo">🎮 GameVerse</div>
+    <nav class="main-nav">
+      <a href="/home">Home</a>
+      <a href="/cart">Cart</a>
+      <a href="/orders" class="active">Orders</a>
+      <a href="/contact">suggestion</a>
+      <a href="/userchat">Message</a>
+    </nav>
+    <div class="header-right">
+      {{request.session.uname}}
+      <a href="/login" class="login-btn">Logout</a>
+    </div>
+    <button class="mobile-menu-btn">☰</button>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="container">
+    <!-- Order Placement Section -->
+    <section class="order-placement">
+      <h1 class="section-title">Place Your Order</h1>
+      <form class="order-form" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="name">Full Name:</label>
+          <input type="text" id="username" name="name" >
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address:</label>
+          <input type="email" id="userEmail" name="email" >
+        </div>
+        <div class="form-group">
+          <label for="address">Shipping Address:</label>
+          <!-- Added a default value for the address textarea -->
+          <textarea id="address" name="address" rows="3" placeholder="123 Gaming Lane, Level Up City, 45678" required>456 Game Street, Pixel Heights, Gamerland - 90210</textarea>
+        </div>
+        <div class="form-group">
+          <label for="payment">Payment Method:</label>
+          <select id="payment" name="payment" required>
+            <option value="">Select Payment Method</option>
+            <option value="credit_card">Credit Card</option>
+            <option value="paypal">PayPal</option>
+            <option value="bank_transfer">Bank Transfer</option>
+          </select>
+        </div>
+        <!-- In a real application, items would likely come from a cart or be selected dynamically -->
+        <div class="form-group">
+            <label for="product">Product to Order:</label>
+            {% if carts %}
+            <ul>
+              {% for order in carts %}
+                <li>{{ order.game_id.title }}</li>
+              {% endfor %}
+            </ul>
+            {% else %}
+            <p>No orders yet.</p>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" value="1" min="1" required>
+        </div>
+        <button class="place-order-btn" type="button" onclick="showConfirmation()">Confirm</button>
+       <!-- Print Popup Modal -->
+        <!-- Order Confirmation Popup (Initially hidden) -->
+      {% if carts %}
+        <div id="popup" class="popup-bg">
+          <div class="popup-box" id="popup-content">
+            <h2 class="print-title">Order Confirmation</h2>
+            <div class="print-summary">
+              {% for order in carts %}
+              <div class="print-item">
+                <img src="{{ order.game_id.image.url }}" alt="{{ order.game_id.title }}">
+                <div class="print-details">
+                  <h3>{{ order.game_id.title }}</h3>
+                  <p>Price: ${{ order.game_id.price }}</p>
+                </div>
+              </div>
+              <div class="print-total">Total: ${{ total }}</div>
+            {% endfor %}
+            </div>
+            <button class="place-order-btn" type="submit" onclick="printAndClose()">Confirm</button>
+          </div>
+        </div>
+      {% endif %}
+      </form>
+    <!-- Ordered Products Details Section -->
+    <section class="ordered-products">
+      <h1 class="section-title">Your Previous Orders</h1>
+      {% if orders %} {# This will be true if 'orders' context variable has data #}
+      <div class="order-list">
+        {% for order in orders %} {# Loop through sample orders #}
+        <div class="order-card">
+          <div class="order-header">
+            <span class="order-id">Order #{{ order.id }}</span>
+            <span class="order-date">{{ order.created_at }}</span>
+          </div>
+          <!-- Order items are now above the footer as requested -->
+          <div class="order-items">
+            <div class="order-item">
+              <img src="{{ order.game_id.image.url }}" alt="{{ order.game_id.title }}" class="order-item-img">
+              <div class="order-item-details">
+                <h3>{{ order.game_id.title }}</h3>
+                <span class="item-price">${{ order.game_id.price }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="order-footer">
+            <span class="order-total">Total: ${{ order.total }}</span>
+            <span class="order-status status-{{ order.status|lower }}">{{ order.status }}</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-orders">
+        <p>You haven't placed any orders yet.</p>
+        <a href="/home" class="shop-btn">Start Shopping</a>
+      </div>
+      {% endif %}
+    </section>
+  </main>
+
+  <!-- JavaScript for mobile menu toggle (copied from home.html) -->
+  <script>
+     const userEmail = "{{request.session.uname}}"; // Replace with dynamic value from login/session
+
+    // Set the email input box default value
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("userEmail").value = userEmail;
+    });
+    const username = "{{request.session.fname}}"; // Replace with dynamic value from login/session
+
+    // Set the email input box default value
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("username").value = username;
+    });
+  // Toggle mobile menu
+  document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+    document.querySelector('.main-nav').classList.toggle('show');
+    document.querySelector('.header-right').classList.toggle('show');
+  });
+
+  // Show confirmation popup when "Confirm" is clicked
+  function showConfirmation() {
+    document.getElementById('popup').style.display = 'flex';
+  }
+
+  // Print and close popup
+  function printAndClose() {
+    const printContents = document.getElementById('popup-content').innerHTML;
+    const printWindow = window.open('', '', 'width=600,height=600');
+    printWindow.document.write('<html><head><title>Print</title></head><body>');
+    printWindow.document.write(printContents);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
+    printWindow.close();
+    document.getElementById('popup').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameVerse</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="tophead">
+    <div class="logo">🎮 GameVerse</div>
+    <nav class="main-nav">
+      <a href="/home" class="active">Home</a>
+      <a href="/cart">Cart</a>
+      <a href="/orders">Orders</a>
+      <a href="/contact">suggestion</a>
+      <a href="/userchat">Message</a>
+    </nav>
+    <div class="header-right">
+      <form method="GET" class="search-form" onsubmit="return false;">
+        <input type="text" id="search-input" name="q" placeholder="Search games..." autocomplete="off" />
+        <button type="submit">🔍</button>
+        <ul id="search-suggestions" class="suggestions-list"></ul>
+      </form>
+      {{request.session.uname}}
+      <a href="/login" class="login-btn">Logout</a>
+    </div>
+    <button class="mobile-menu-btn">☰</button>
+  </header>
+
+  <div class="container">
+    <section class="hero">
+      <h1>Welcome to GameVerse</h1>
+      <p>Level up your gaming gear. Explore consoles, accessories, and more.</p>
+      <button class="shop-now">Shop Now</button>
+    </section>
+
+    <section class="game-list">
+      <h2>Available Games</h2>
+      <div class="games">
+        {% for game in games %}
+        <div class="game-card">
+          <img src="{{ game.image.url }}" alt="{{ game.title }}">
+          <div class="game-info">
+            <h3>{{ game.title }}</h3>
+            <p class="game-description">{{ game.description }}</p>
+            <div class="game-footer">
+              <span class="price">${{ game.price }}</span>
+              <form method="POST" action="{% url 'add_to_cart' game.id %}">
+                {% csrf_token %}
+                <button type="submit" class="cart-btn">Add to Cart</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <p class="no-games">No games available.</p>
+        {% endfor %}
+      </div>
+    </section>
+  </div>
+
+  <script>
+  // Mobile menu toggle
+  document.querySelector('.mobile-menu-btn').addEventListener('click', function () {
+    document.querySelector('.main-nav').classList.toggle('show');
+    document.querySelector('.header-right').classList.toggle('show');
+  });
+
+  // Search suggestion logic
+  const searchInput = document.getElementById('search-input');
+  const suggestionBox = document.getElementById('search-suggestions');
+
+  searchInput.addEventListener('input', function () {
+    const query = this.value.trim();
+    suggestionBox.innerHTML = '';
+
+    if (query.length > 0) {
+      fetch(`/search_suggestions/?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(game => {
+            const li = document.createElement('li');
+            li.textContent = game.title;
+            li.onclick = () => {
+              window.location.href = `/game/${game.id}/`; // Make sure this URL matches your game detail view
+            };
+            suggestionBox.appendChild(li);
+          });
+        });
+    }
+  });
+
+  // Hide suggestion box when clicking outside
+  document.addEventListener('click', function (event) {
+    if (!searchInput.contains(event.target) && !suggestionBox.contains(event.target)) {
+      suggestionBox.innerHTML = '';
+    }
+  });
+</script>
+
+</body>
+</html>

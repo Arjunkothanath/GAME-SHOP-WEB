@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart - GameVerse</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/cart.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="tophead">
+    <div class="logo">🎮 GameVerse</div>
+    <nav class="main-nav">
+      <a href="/home" >Home</a>
+      <a href="/cart" class="active">Cart</a>
+      <a href="/orders">Orders</a>
+      <a href="/contact">suggestion</a>
+      <a href="/userchat">Message</a>
+    </nav>
+    <div class="header-right">
+      {{request.session.uname}}
+      <a href="/login" class="login-btn">Logout</a>
+    </div>
+    <button class="mobile-menu-btn">☰</button>
+  </header>
+
+  <!-- Main Content -->
+  <main class="container">
+    <section class="cart-container">
+      <h1 class="cart-title">Your Cart</h1>
+      
+      {% if games %}
+      <div class="cart-items">
+        {% for cart in games %}
+        <div class="cart-item">
+          <img src="{{ cart.game_id.image.url }}" alt="{{ cart.game_id.title }}" class="cart-item-img">
+          <div class="cart-item-details">
+            <h3>{{ cart.game_id.title }}</h3>
+            <div class="cart-item-controls">
+              <span class="price">${{ cart.game_id.price }}</span>
+              <form method="POST" action="{% url 'remove_from_cart' cart.id %}">
+                {% csrf_token %}
+                <button type="submit" class="remove-btn">Remove</button>
+              </form>
+          </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      
+      <div class="cart-summary">
+        <div class="total">
+          <span>Subtotal:</span>
+          <span>${{ total }}</span>
+        </div>
+        <div class="total">
+          <span>Shipping:</span>
+          <span>Free</span>
+        </div>
+        <div class="total grand-total">
+          <span>Total:</span>
+          <span>${{ total }}</span>
+        </div>
+        <form method="POST" action="{% url 'checkout' %}">
+                {% csrf_token %}
+                <button type="submit" class="checkout-btn">Proceed to checkout</button>
+        </form>
+      </div>
+      {% else %}
+      <div class="empty-cart">
+        <p>Your cart is empty</p>
+        <a href="{% url 'home' %}" class="shop-btn">Continue Shopping</a>
+      </div>
+      {% endif %}
+    </section>
+  </main>
+
+  
+
+  <script>
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+      document.querySelector('.main-nav').classList.toggle('show');
+      document.querySelector('.search-form').classList.toggle('show');
+      document.querySelector('.login-btn').classList.toggle('show');
+    });
+  </script>
+</body>
+</html>

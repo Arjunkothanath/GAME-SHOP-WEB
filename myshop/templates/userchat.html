@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Chat</title>
+  <link rel="stylesheet" href="{% static 'css/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/userchat.css' %}">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+</body>
+  <header class="tophead">
+    <div class="logo">🎮 GameVerse</div>
+    <nav class="main-nav">
+      <a href="/home">Home</a>
+      <a href="/cart">Cart</a>
+      <a href="/orders">Orders</a>
+      <a href="/contact">suggestion</a>
+      <a href="/userchat"  class="active">Message</a>
+    </nav>
+    <div class="header-right">
+      {{request.session.uname}}
+      <a href="/login" class="login-btn">Logout</a>
+    </div>
+    <button class="mobile-menu-btn">☰</button>
+  </header>
+  <div class="container chat-page">
+    <h1 class="chat-title">Chat with Admin</h1>
+
+    <div class="chat-box">
+      <div class="chat-messages">
+        {% for message in messages %}
+          <div class="chat-message {% if message.sender == user %}sent{% else %}received{% endif %}">
+            <p>{{ message.sender.username }}: {{ message.chat }}</p>
+            <span class="timestamp">{{ message.created_at|date:"H:i" }}</span>
+          </div>
+        {% empty %}
+          <p class="no-messages">No messages yet.</p>
+        {% endfor %}
+      </div>
+
+      <form method="POST" class="chat-form">
+        {% csrf_token %}
+        <input type="text" name="message" placeholder="Type your message..." required>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+</div>
+</body>
+</html>

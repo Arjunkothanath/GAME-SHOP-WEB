@@ -1,0 +1,114 @@
+/* reg.css */
+@import 'base.css';
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  padding: 1rem;
+}
+
+form {
+  background-color: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  width: 100%;
+  max-width: 500px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.sign {
+  margin-bottom: 1.5rem;
+}
+
+.one {
+  display: flex;
+  gap: 1rem;
+}
+
+.one > div {
+  flex: 1;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 2px solid #dfe6e9;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  transition: var(--transition);
+}
+
+input:focus {
+  border-color: var(--primary);
+  outline: none;
+}
+
+button {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 1rem;
+}
+
+button:hover {
+  background-color: var(--primary-dark);
+}
+
+.final {
+  display: flex;
+  justify-content: space-between;
+}
+
+.final a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.final a:hover {
+  text-decoration: underline;
+}
+
+.popup {
+  position: absolute;
+  background-color: var(--dark);
+  color: white;
+  padding: 0.8rem 1rem;
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  margin-top: -0.5rem;
+  display: none;
+  z-index: 10;
+  width: 100%;
+  max-width: 300px;
+}
+
+.popup::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 20px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent transparent var(--dark) transparent;
+}

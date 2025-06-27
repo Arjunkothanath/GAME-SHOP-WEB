@@ -1,0 +1,128 @@
+/* chatadmin.css */
+@import 'base.css';
+
+.chat-dashboard {
+  display: flex;
+  gap: 2rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.user-list {
+  flex: 0 0 300px;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+}
+
+.user-list h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.user-list ul {
+  list-style: none;
+}
+
+.user-list li {
+  margin-bottom: 0.5rem;
+}
+
+.user-list a {
+  display: block;
+  padding: 0.8rem 1rem;
+  text-decoration: none;
+  color: var(--dark);
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+}
+
+.user-list a:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+.chat-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-title {
+  margin-bottom: 1.5rem;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: var(--border-radius);
+  margin-bottom: 1.5rem;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.chat-message {
+  margin-bottom: 1rem;
+  padding: 0.8rem 1rem;
+  border-radius: var(--border-radius);
+  max-width: 70%;
+  position: relative;
+}
+
+.chat-message.sent {
+  background-color: var(--primary);
+  color: white;
+  margin-left: auto;
+}
+
+.chat-message.received {
+  background-color: #dfe6e9;
+  margin-right: auto;
+}
+
+.timestamp {
+  display: block;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: 0.3rem;
+}
+
+.no-messages {
+  text-align: center;
+  color: #636e72;
+}
+
+.chat-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.chat-form input {
+  flex: 1;
+  padding: 0.8rem 1rem;
+  border: 2px solid #dfe6e9;
+  border-radius: var(--border-radius);
+}
+
+.chat-form button {
+  padding: 0.8rem 1.5rem;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .chat-dashboard {
+    flex-direction: column;
+  }
+  
+  .user-list {
+    flex: 0 0 auto;
+  }
+}

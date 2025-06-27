@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LOGIN</title>
+    <link rel="stylesheet" href="{% static 'css/reg.css' %}">
+</head>
+<body>
+    <form id="frm" method="post">
+        {% csrf_token %}
+        <h1>LOGIN</h1>
+        <div class="sign">
+            <label for="email">Email</label>
+            <input id="mail" type="email" name="email" required><br>
+            <label for="password">Password</label>
+            <input id="pass" type="password" name="password" required><br>
+            </div>
+            <button type="submit">Login</button>
+            {% if messages %}
+                {% for message in messages %}
+                    <p>{{message}}</p>
+                {% endfor %}
+            {% endif %}
+        <div class="final">
+            <a href="/forgot">Forgot Password ?</a>
+            <a href='/register' style="color: rgb(217, 217, 255);">Create account</a>
+        </div>
+    </form>
+    <script>
+    //     let info=''
+    //     document.getElementById("frm").addEventListener("submit",function(event)
+    // {
+    //     event.preventDefault()
+    //     let c = document.getElementById("mail").value;
+    //     let d = document.getElementById("pass").value;
+    //     info+=`${c}\n${d}\n`;
+    //     if(info!==''){
+    //         console.log(info);
+    //         window.alert(info+"login successfully");
+    //         window.location.href='/home';
+    //     }
+
+    // })
+    </script>
+    
+    
+</body>
+</html>

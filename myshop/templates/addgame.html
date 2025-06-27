@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Game | GameVerse Admin</title>
+  <link rel="stylesheet" href="{% static 'css/addgame.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="tophead">
+    <div class="logo">🎮 GameVerse Admin</div>
+    <nav class="main-nav">
+      <a href="/admin">Dashboard</a>
+      <a href="/addgame" class="active">Add Game</a>
+      <a href="/manage">Manage orders</a>
+      <a href="/queries">Queries</a>
+      <a href="/chatadmin">Chats</a>
+      <a href="/home">View Site</a>
+    </nav>
+    <div class="header-right">
+      <a href="/logout" class="login-btn">Logout</a>
+    </div>
+    <button class="mobile-menu-btn">☰</button>
+  </header>
+
+  <div class="container">
+    <section class="add-game-section">
+      <h1>Add New Game</h1>
+      
+      <form method="POST" enctype="multipart/form-data" class="add-game-form">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="game-title">Game Title*</label>
+          <input type="text" id="game-title" name="title" required placeholder="Enter game title">
+        </div>
+        <div class="form-group">
+          <label for="game-description">Description*</label>
+          <textarea id="game-description" name="description" rows="4" required placeholder="Enter game description"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="game-price">Price*</label>
+          <div class="price-input">
+            <span>$</span>
+            <input type="number" id="game-price" name="price" step="0.01" min="0" required placeholder="0.00">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="game-image">Game Image*</label>
+          <div class="image-upload">
+            <label for="game-image" class="upload-label">
+              <span id="file-name">Choose an image file</span>
+              <span class="browse-btn">Browse</span>
+            </label>
+            <input type="file" id="game-image" name="image" accept="image/*" required>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="submit-btn">Add Game</button>
+          <a href="/admin" class="cancel-btn">Cancel</a>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+      document.querySelector('.main-nav').classList.toggle('show');
+      document.querySelector('.header-right').classList.toggle('show');
+    });
+
+    // Update filename display when image is selected
+    document.getElementById('game-image').addEventListener('change', function(e) {
+      const fileName = e.target.files[0] ? e.target.files[0].name : 'Choose an image file';
+      document.getElementById('file-name').textContent = fileName;
+    });
+  </script>
+</body>
+</html>

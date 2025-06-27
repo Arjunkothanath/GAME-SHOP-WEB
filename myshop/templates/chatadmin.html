@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Chat</title>
+  <link rel="stylesheet" href="{% static 'css/admin.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/chatadmin.css' %}">
+</head>
+<body>
+  <header class="tophead">
+    <div class="logo">🎮 GameVerse Admin</div>
+    <nav class="main-nav">
+      <a href="/admin">Dashboard</a>
+      <a href="/addgame">Add Game</a>
+      <a href="/manage">Manage Orders</a>
+      <a href="/queries">Queries</a>
+      <a href="/adminchat" class="active">Chat</a>
+      <a href="/home">View Site</a>
+    </nav>
+    <div class="header-right">
+      <a href="/login" class="login-btn">Logout</a>
+    </div>
+  </header>
+
+  <div class="container chat-dashboard">
+    <div class="user-list">
+      <h2>Users</h2>
+      <ul>
+        {% for u in users %}
+          <li>
+            <a href="{% url 'chatadmin' u.id %}">{{ u.username }} - ID: {{ u.id }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="chat-box">
+      {% if receiver %}
+        <h2 class="chat-title">Chat with {{ receiver.username }}</h2>
+
+        <div class="chat-messages">
+          {% for message in messages %}
+            <div class="chat-message {% if message.sender == user %}sent{% else %}received{% endif %}">
+              <p>
+                {% if message.sender %}
+                  {{ message.sender.username }}: {{ message.chat }}
+                {% else %}
+                  Unknown sender: {{ message.chat }}
+                {% endif %}
+              </p>
+              <span class="timestamp">{{ message.created_at|date:"H:i" }}</span>
+            </div>
+          {% empty %}
+            <p class="no-messages">No messages yet.</p>
+          {% endfor %}
+        </div>
+
+        <form method="POST" action="{% url 'chatadmin' receiver.id %}" class="chat-form">
+          {% csrf_token %}
+          <input type="text" name="message" placeholder="Type your message..." required>
+          <button type="submit">Send</button>
+        </form>
+      {% else %}
+        <h2>Select a user from the list to start chatting.</h2>
+      {% endif %}
+    </div>
+  </div>
+</body>
+</html>

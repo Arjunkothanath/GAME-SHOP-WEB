@@ -1,0 +1,95 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameVerse Admin - Manage Orders</title>
+  <link rel="stylesheet" href="{% static 'css/manage.css' %}" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="tophead">
+    <div class="logo">🎮 GameVerse Admin</div>
+    <nav class="main-nav">
+      <a href="/admin">Dashboard</a>
+      <a href="/addgame">Add Game</a>
+      <a href="/manage" class="active">Manage Orders</a>
+      <a href="/queries">Queries</a>
+      <a href="/chatadmin">Chats</a>
+      <a href="/home">View Site</a>
+    </nav>
+    <div class="header-right">
+      <a href="/login" class="login-btn">Logout</a>
+    </div>
+    <button class="mobile-menu-btn">☰</button>
+  </header>
+
+  <div class="container">
+    <section class="admin-section">
+      <h1>All Orders</h1>
+
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Ordered Games</th>
+            <th>Total Price</th>
+            <th>Order Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for order in orders %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ order.user_id.username }}</td>
+            <td>{{ order.user_id.email }}</td>
+            <td>
+              <ul>
+                <li>{{ order.game_id.title }}</li>
+              </ul>
+            </td>
+            <td>${{ order.game_id.price }}</td>
+            <td>{{ order.created_at }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" style="text-align:center;">No orders found.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <h2>Product Order Summary</h2>
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Game Title</th>
+            <th>Total Orders</th>
+            <th>Total Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for game in game_counts %}
+          <tr>
+            <td>{{ game.game_id__title }}</td>
+            <td>{{ game.total_orders }}</td>
+            <td>{{ game.total_amount }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p>Total Sum of Prices: {{ total }}</p>
+    </section>
+  </div>
+
+  <script>
+    document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+      document.querySelector('.main-nav').classList.toggle('show');
+      document.querySelector('.header-right').classList.toggle('show');
+    });
+  </script>
+</body>
+</html>
