@@ -21,4 +21,5 @@ GameVerse is a modern, stylish Django-based eCommerce platform tailored for sell
 
 ---
 Ownshop - Project Name
+
 Myshop - App Name
